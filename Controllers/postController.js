@@ -46,6 +46,25 @@ const updateOne = async (req, res, next) => {
     }
   }
 
+  const likePost = async(req,res,next)=>{
+    const postId = req.params.id
+    const like = req.body.like
+    if(like){
+    await Post.updateOne(
+        {_id:postId},
+        { $inc: { likes: 1 } }
+     )
+     res.status(200).json({success:true,msg:"like added"})
+    }
+    if(!like){
+      await Post.updateOne(
+        {_id:postId},
+        { $inc: { likes: -1 } }
+     )
+     res.status(200).json({success:true,msg:"like removed"})
+    }
+  }
+
 const deleteOne =async (req, res, next) => {
     try {
       const post = await Post.findByIdAndDelete(req.params.id);
@@ -57,4 +76,4 @@ const deleteOne =async (req, res, next) => {
       next(error);
     }
   }
-module.exports ={getAll,addPost,getOne,updateOne,deleteOne}
+module.exports ={getAll,addPost,getOne,updateOne,deleteOne,likePost}

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { getAll, addPost, getOne, updateOne, deleteOne } = require("../Controllers/postController");
+const { getAll, addPost, getOne, updateOne, deleteOne, likePost } = require("../Controllers/postController");
 
 
 router
@@ -11,6 +11,7 @@ router
 // post by id
 router
   .route("/post/:id")
+  .post(likePost)
   .get(getOne)
   .put(updateOne)
   .delete(deleteOne);
