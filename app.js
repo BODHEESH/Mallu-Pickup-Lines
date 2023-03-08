@@ -21,11 +21,15 @@ app.use(helmet());
 
 // Routes
 app.use('/', routes);
+app.use("/api",require("./Routes/postRoute"))
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  // console.error(err.stack);
-  res.status(500).send('Something broke!');
+ res.status(err.status || 500)
+ res.send({
+  code:err.status || 500,
+  message:err.message || "Something went wrong "
+ })
 });
 
 // Start the server
