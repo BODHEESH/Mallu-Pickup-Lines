@@ -76,4 +76,38 @@ const deleteOne =async (req, res, next) => {
       next(error);
     }
   }
-module.exports ={getAll,addPost,getOne,updateOne,deleteOne,likePost}
+
+  const toggleLikePost = async (req, res, next) => {
+    try {
+      const postId = req.params.id;
+      const userId = req.body.userId;
+  
+      const post = await Post.findOne({ _id: postId });
+      if (!post) {
+        console.log(`Post with ID ${postId} not found.`);
+        return res.status(404).json({ message: `Post with ID ${postId} not found.` });
+      }
+  
+      const likes = post.likes || [];
+      const index = likes.indexOf(userId);
+      if (index >= 0) {
+        likes.splice(index, 1); // User has already liked the post, so remove their like
+        console.log(`Disliked post with ID ${postId}.`);
+        await Post.updateOne({ _id: postId }, { $set: { likes } });
+        return res.status(200).json({ message: `Post with ID ${postId} disliked successfully.` });
+      } else {
+        likes.push(userId); // User has not liked the post yet, so add their like
+        console.log(`Liked post with ID ${postId}.`);
+        await Post.updateOne({ _id: postId }, { $set: { likes } });
+        return res.status(200).json({ message: `Post with ID ${postId} Liked successfully.` });
+      }
+  
+    
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: `An error occurred while updating post with ID ${postId}.` });
+    }
+  };
+  
+
+module.exports ={getAll,addPost,getOne,updateOne,deleteOne,likePost,toggleLikePost}
