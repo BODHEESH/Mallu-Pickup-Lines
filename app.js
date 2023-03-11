@@ -22,6 +22,7 @@ app.use(helmet());
 // Routes
 app.use('/', routes);
 app.use("/api",require("./Routes/postRoute"))
+app.use("/api/profile",require('./Routes/profileRoute'))
 
 // Error handling middleware
 app.use((err, req, res, next) => {

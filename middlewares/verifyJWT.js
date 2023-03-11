@@ -60,6 +60,8 @@ const verifyJwt = (req, res, next) => {
 
             //putting that user to request header to access in the protected route
             req.user = user
+            
+            console.log(req.user);
 
             //go to next
             next()

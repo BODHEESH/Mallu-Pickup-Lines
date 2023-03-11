@@ -10,7 +10,7 @@ const { genAccessToken, genRefreshToken, generateTokens } = require("../Helper/J
 
 exports.getProfile = async (req, res) => {
   try {
-    console.log(req.user);
+    console.log(req.user,'=========');
     // Get user ID and mobile number from the req.user object
     const { _id, mobileNumber } = req.user
 
